@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Readiness Report — Summit Plumbing Co.</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0B1120;
+    --ink-80: #1E293B;
+    --ink-60: #334155;
+    --ink-40: #64748B;
+    --ink-20: #94A3B8;
+    --ink-10: #CBD5E1;
+    --ink-05: #F1F5F9;
+    --paper: #FFFFFF;
+    --accent: #0EA5E9;
+    --accent-deep: #0369A1;
+    --accent-glow: #38BDF8;
+    --accent-bg: #F0F9FF;
+    --green: #059669;
+    --green-bg: #ECFDF5;
+    --green-text: #064E3B;
+    --amber: #D97706;
+    --amber-bg: #FFFBEB;
+    --amber-text: #78350F;
+    --red: #DC2626;
+    --red-bg: #FEF2F2;
+    --red-text: #7F1D1D;
+    --gold: #B8860B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scoreCount {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes gaugeStroke {
+    from { stroke-dasharray: 0, 100; }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(14, 165, 233, 0.15); }
+    50% { box-shadow: 0 0 40px rgba(14, 165, 233, 0.3); }
+  }
+
+  body {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink-80);
+    background: var(--ink-05);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .report-container {
+    max-width: 860px;
+    margin: 0 auto;
+    background: var(--paper);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 20px 60px rgba(0,0,0,0.08);
+  }
+
+  /* ─── COVER HEADER ─── */
+  .cover {
+    background: linear-gradient(145deg, #0B1120 0%, #1E3A5F 55%, #0C4A6E 100%);
+    padding: 56px 56px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(56,189,248,0.4), transparent);
+  }
+
+  .cover-topline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .cover-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cover-brand-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-glow) 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cover-brand-icon svg { width: 18px; height: 18px; }
+  .cover-brand-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.5px;
+  }
+  .cover-date {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 400;
+    letter-spacing: 0.3px;
+  }
+
+  .cover-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent-glow);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+  .cover-business {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 42px;
+    color: #FFFFFF;
+    line-height: 1.15;
+    margin-bottom: 6px;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+  .cover-address {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s ease 0.25s both;
+  }
+
+  /* ─── SCORE HERO ─── */
+  .score-hero {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    animation: fadeUp 0.6s ease 0.35s both;
+  }
+  .score-ring {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+  }
+  .score-ring svg {
+    width: 140px;
+    height: 140px;
+    transform: rotate(-90deg);
+  }
+  .score-ring-bg { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 6; }
+  .score-ring-value {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+    animation: gaugeStroke 1.5s ease 0.8s both;
+  }
+  .score-ring-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    animation: scoreCount 0.6s ease 1s both;
+  }
+  .score-ring-number .num {
+    font-size: 48px;
+    font-weight: 800;
+    color: #FFFFFF;
+    line-height: 1;
+    display: block;
+  }
+  .score-ring-number .of {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 400;
+  }
+
+  .score-meta {
+    flex: 1;
+  }
+  .score-grade {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .grade-C { background: rgba(217,119,6,0.2); color: #FCD34D; }
+  .grade-B { background: rgba(5,150,105,0.2); color: #6EE7B7; }
+  .grade-A { background: rgba(14,165,233,0.2); color: var(--accent-glow); }
+  .grade-D { background: rgba(220,38,38,0.2); color: #FCA5A5; }
+  .grade-F { background: rgba(220,38,38,0.3); color: #FCA5A5; }
+
+  .score-verdict {
+    font-size: 16px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.55;
+    font-weight: 300;
+  }
+
+  /* ─── MINI GAUGES ROW ─── */
+  .gauges-bar {
+    display: flex;
+    background: rgba(255,255,255,0.04);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    animation: fadeUp 0.6s ease 0.45s both;
+  }
+  .gauge-item {
+    flex: 1;
+    padding: 20px 24px;
+    text-align: center;
+    position: relative;
+  }
+  .gauge-item + .gauge-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+  .gauge-mini-ring {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 8px;
+    position: relative;
+  }
+  .gauge-mini-ring svg {
+    width: 52px;
+    height: 52px;
+    transform: rotate(-90deg);
+  }
+  .gauge-mini-bg { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 4; }
+  .gauge-mini-val {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+    animation: gaugeStroke 1.2s ease 1.2s both;
+  }
+  .gauge-mini-num {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .gauge-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  /* ─── BODY SECTIONS ─── */
+  .report-body {
+    padding: 0 56px 56px;
+  }
+
+  .section {
+    margin-top: 48px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.15s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.25s; }
+  .section:nth-child(5) { animation-delay: 0.3s; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--ink-05);
+  }
+  .section-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-num {
+    width: 36px;
+    height: 36px;
+    background: var(--ink);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .section-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 24px;
+    color: var(--ink);
+  }
+  .section-score-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .section-score-badge .bar {
+    width: 80px;
+    height: 6px;
+    background: var(--ink-05);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .section-score-badge .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease;
+  }
+  .section-summary {
+    font-size: 15px;
+    color: var(--ink-60);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  /* ─── FINDINGS CARDS ─── */
+  .finding {
+    display: flex;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    position: relative;
+    transition: transform 0.15s ease;
+  }
+  .finding:hover { transform: translateX(2px); }
+
+  .finding-good { background: var(--green-bg); }
+  .finding-warning { background: var(--amber-bg); }
+  .finding-critical { background: var(--red-bg); }
+
+  .finding-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+    margin-top: 1px;
+  }
+  .finding-good .finding-icon { background: var(--green); color: white; }
+  .finding-warning .finding-icon { background: var(--amber); color: white; }
+  .finding-critical .finding-icon { background: var(--red); color: white; }
+
+  .finding-content { flex: 1; }
+  .finding-label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .finding-good .finding-label { color: var(--green-text); }
+  .finding-warning .finding-label { color: var(--amber-text); }
+  .finding-critical .finding-label { color: var(--red-text); }
+
+  .finding-detail {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-60);
+  }
+  .finding-fix {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent-deep);
+  }
+  .finding-fix::before { content: '→'; font-weight: 700; }
+
+  /* ─── COMPETITOR TABLE ─── */
+  .comp-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 16px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--ink-10);
+  }
+  .comp-table th {
+    background: var(--ink);
+    color: rgba(255,255,255,0.8);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+  }
+  .comp-table th:last-child { text-align: center; }
+  .comp-table td {
+    padding: 12px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--ink-05);
+    color: var(--ink-60);
+  }
+  .comp-table td:last-child { text-align: center; }
+  .comp-table tr.you-row {
+    background: var(--accent-bg);
+  }
+  .comp-table tr.you-row td {
+    font-weight: 600;
+    color: var(--ink);
+    border-bottom: 2px solid var(--accent);
+  }
+  .star { color: var(--gold); }
+  .reviews-bar {
+    display: inline-block;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--accent);
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  .comp-rank {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .rank-1 { background: #FEF3C7; color: #92400E; }
+  .rank-2 { background: #E5E7EB; color: #374151; }
+  .rank-3 { background: #FFEDD5; color: #9A3412; }
+  .rank-you { background: var(--accent); color: white; }
+
+  /* ─── AI SIMULATION BOX ─── */
+  .ai-sim {
+    background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+    animation: pulseGlow 4s ease infinite;
+  }
+  .ai-sim::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+  }
+  .ai-sim-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent-glow);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ai-sim-label .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-glow);
+    border-radius: 50%;
+    animation: pulseGlow 2s ease infinite;
+  }
+  .ai-sim-prompt {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    font-style: italic;
+    margin-bottom: 16px;
+    padding-left: 16px;
+    border-left: 2px solid rgba(56,189,248,0.3);
+  }
+  .ai-sim-response {
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ─── ACTION PLAN ─── */
+  .action-phase {
+    margin: 20px 0;
+    border-radius: 12px;
+    border: 1px solid var(--ink-10);
+    overflow: hidden;
+  }
+  .action-phase-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--ink-05);
+  }
+  .action-phase-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .action-phase-badge {
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .phase-1 .action-phase-badge { background: #DCFCE7; color: #166534; }
+  .phase-2 .action-phase-badge { background: #DBEAFE; color: #1E40AF; }
+  .phase-3 .action-phase-badge { background: #F3E8FF; color: #6B21A8; }
+  .action-phase-time {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .action-phase-impact {
+    font-size: 12px;
+    color: var(--ink-40);
+    font-style: italic;
+  }
+
+  .action-items { padding: 4px 20px 16px; }
+  .action-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--ink-05);
+  }
+  .action-item:last-child { border-bottom: none; }
+  .action-check {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--ink-10);
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .action-text {
+    flex: 1;
+  }
+  .action-text strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .action-text span {
+    font-size: 12px;
+    color: var(--ink-40);
+    line-height: 1.5;
+  }
+  .action-effort {
+    padding: 3px 10px;
+    background: var(--ink-05);
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-40);
+    align-self: flex-start;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ─── CTA BLOCK ─── */
+  .cta-block {
+    margin: 48px 0 0;
+    padding: 40px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #0B1120 0%, #0C4A6E 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-block::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(56,189,248,0.15), transparent 70%);
+  }
+  .cta-block::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(14,165,233,0.1), transparent 70%);
+  }
+  .cta-score-jump {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 20px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 100px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cta-score-from {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--amber);
+  }
+  .cta-score-arrow {
+    font-size: 18px;
+    color: rgba(255,255,255,0.3);
+  }
+  .cta-score-to {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--green);
+  }
+  .cta-headline {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 28px;
+    color: #FFFFFF;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .cta-body {
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto 24px;
+    font-weight: 300;
+    position: relative;
+  }
+  .cta-button {
+    display: inline-block;
+    padding: 14px 40px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-glow) 100%);
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 12px;
+    text-decoration: none;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(14,165,233,0.4);
+  }
+
+  /* ─── FOOTER ─── */
+  .report-footer {
+    padding: 24px 56px;
+    background: var(--ink-05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--ink-10);
+  }
+  .footer-left {
+    font-size: 12px;
+    color: var(--ink-40);
+  }
+  .footer-right {
+    font-size: 11px;
+    color: var(--ink-20);
+  }
+  .footer-confidential {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: var(--ink-10);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink-40);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ─── PRINT ─── */
+  @media print {
+    body { background: white; }
+    .report-container { box-shadow: none; }
+    .section, .finding, .action-phase { break-inside: avoid; }
+    .cta-button { color: var(--ink) !important; }
+  }
+
+  @media (max-width: 640px) {
+    .cover { padding: 32px 24px 28px; }
+    .cover-business { font-size: 28px; }
+    .report-body { padding: 0 24px 32px; }
+    .score-hero { flex-direction: column; gap: 20px; text-align: center; }
+    .gauges-bar { flex-wrap: wrap; }
+    .gauge-item { min-width: 50%; }
+    .comp-table { font-size: 12px; }
+    .cta-block { padding: 28px 20px; }
+    .report-footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="report-container">
+
+  <!-- ════════ COVER ════════ -->
+  <div class="cover">
+    <div class="cover-topline">
+      <div class="cover-brand">
+        <div class="cover-brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <span class="cover-brand-name">AgentLocal.ai</span>
+      </div>
+      <span class="cover-date">March 14, 2026</span>
+    </div>
+
+    <div class="cover-label">AI Readiness &amp; Optimization Report</div>
+    <div class="cover-business">Summit Plumbing Co.</div>
+    <div class="cover-address">4521 S Broadway, Englewood, CO 80113 · Plumbing</div>
+
+    <div class="score-hero">
+      <div class="score-ring">
+        <svg viewBox="0 0 36 36">
+          <path class="score-ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          <path class="score-ring-value" stroke="#F59E0B" stroke-dasharray="47, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+        </svg>
+        <div class="score-ring-number">
+          <span class="num">47</span>
+          <span class="of">of 100</span>
+        </div>
+      </div>
+      <div class="score-meta">
+        <div class="score-grade grade-D">
+          <span>●</span> Grade D — Needs Significant Work
+        </div>
+        <div class="score-verdict">
+          Your Google profile has a solid review base, but major gaps in website optimization, AI discoverability, and competitive positioning are costing you an estimated 30-40 calls per month. The good news: your top 3 fixes take less than a week.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ MINI GAUGES ════════ -->
+  <div class="gauges-bar">
+    <div class="gauge-item">
+      <div class="gauge-mini-ring">
+        <svg viewBox="0 0 36 36">
+          <path class="gauge-mini-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          <path class="gauge-mini-val" stroke="#10B981" stroke-dasharray="70, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+        </svg>
+        <span class="gauge-mini-num">7</span>
+      </div>
+      <div class="gauge-label">GBP Health</div>
+    </div>
+    <div class="gauge-item">
+      <div class="gauge-mini-ring">
+        <svg viewBox="0 0 36 36">
+          <path class="gauge-mini-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          <path class="gauge-mini-val" stroke="#F59E0B" stroke-dasharray="50, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+        </svg>
+        <span class="gauge-mini-num">5</span>
+      </div>
+      <div class="gauge-label">Competition</div>
+    </div>
+    <div class="gauge-item">
+      <div class="gauge-mini-ring">
+        <svg viewBox="0 0 36 36">
+          <path class="gauge-mini-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          <path class="gauge-mini-val" stroke="#EF4444" stroke-dasharray="30, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+        </svg>
+        <span class="gauge-mini-num">3</span>
+      </div>
+      <div class="gauge-label">Website</div>
+    </div>
+    <div class="gauge-item">
+      <div class="gauge-mini-ring">
+        <svg viewBox="0 0 36 36">
+          <path class="gauge-mini-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          <path class="gauge-mini-val" stroke="#EF4444" stroke-dasharray="20, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+        </svg>
+        <span class="gauge-mini-num">2</span>
+      </div>
+      <div class="gauge-label">AI Ready</div>
+    </div>
+  </div>
+
+  <div class="report-body">
+
+    <!-- ════════ SECTION 1: GBP HEALTH ════════ -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-header-left">
+          <div class="section-num">1</div>
+          <div class="section-title">Google Business Profile</div>
+        </div>
+        <div class="section-score-badge">
+          <span style="color: #10B981;">7/10</span>
+          <div class="bar"><div class="bar-fill" style="width:70%; background:#10B981;"></div></div>
+        </div>
+      </div>
+      <div class="section-summary">
+        Your GBP is in decent shape — you've got 87 reviews at 4.6 stars, which puts you above the local average. But your profile is missing key elements that competitors are using to outrank you in the Map Pack.
+      </div>
+
+      <div class="finding finding-good">
+        <div class="finding-icon">✓</div>
+        <div class="finding-content">
+          <div class="finding-label">Review Strength: Above Average</div>
+          <div class="finding-detail">87 reviews at 4.6★ vs. the local competitor average of 62 reviews at 4.3★. Your review recency is strong — 6 reviews in the past 30 days.</div>
+        </div>
+      </div>
+
+      <div class="finding finding-warning">
+        <div class="finding-icon">!</div>
+        <div class="finding-content">
+          <div class="finding-label">Review Response Rate: 34%</div>
+          <div class="finding-detail">You've responded to only 30 of 87 reviews. Google's algorithm favors businesses that respond to 90%+ of reviews. Your top competitor responds to 95% within 24 hours.</div>
+          <div class="finding-fix">Respond to all unanswered reviews this week — Google sees the activity spike immediately</div>
+        </div>
+      </div>
+
+      <div class="finding finding-warning">
+        <div class="finding-icon">!</div>
+        <div class="finding-content">
+          <div class="finding-label">Photo Count: 14 (Below Threshold)</div>
+          <div class="finding-detail">Businesses with 25+ photos get 35% more clicks to their website. Your nearest competitor has 48 photos. You're missing: team photos, completed project photos, vehicle/equipment shots.</div>
+          <div class="finding-fix">Upload 15+ new photos this week — job sites, team, branded vehicles, before/after shots</div>
+        </div>
+      </div>
+
+      <div class="finding finding-critical">
+        <div class="finding-icon">✕</div>
+        <div class="finding-content">
+          <div class="finding-label">GBP Posts: None in 90+ Days</div>
+          <div class="finding-detail">You haven't posted to your Google Business Profile since December 2025. Businesses posting weekly see 42% more direction requests. This is one of the easiest wins on this report.</div>
+          <div class="finding-fix">Start posting 2x/week — seasonal tips, completed projects, promotions, team highlights</div>
+        </div>
+      </div>
+
+      <div class="finding finding-good">
+        <div class="finding-icon">✓</div>
+        <div class="finding-content">
+          <div class="finding-label">Business Information: Complete</div>
+          <div class="finding-detail">Hours, phone, address, categories, and service area are all properly filled out. Primary category "Plumber" is correct. Secondary categories present.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ SECTION 2: COMPETITIVE POSITION ════════ -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-header-left">
+          <div class="section-num">2</div>
+          <div class="section-title">Competitive Position</div>
+        </div>
+        <div class="section-score-badge">
+          <span style="color: #F59E0B;">5/10</span>
+          <div class="bar"><div class="bar-fill" style="width:50%; background:#F59E0B;"></div></div>
+        </div>
+      </div>
+      <div class="section-summary">
+        You rank 4th out of 8 plumbers in the Englewood/Littleton Map Pack. Two competitors are pulling away from the field on review volume and profile activity. You have a realistic path to top 3 within 60 days.
+      </div>
+
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Business</th>
+            <th>Rating</th>
+            <th>Reviews</th>
+            <th>Photos</th>
+            <th>Active</th>
+            <th>Rank</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Bluefin Plumbing</strong></td>
+            <td><span class="star">★</span> 4.8</td>
+            <td><span class="reviews-bar" style="width:60px;"></span>156</td>
+            <td>48</td>
+            <td style="color:var(--green); font-weight:600;">Weekly</td>
+            <td><span class="comp-rank rank-1">1</span></td>
+          </tr>
+          <tr>
+            <td><strong>Metro Drain Pros</strong></td>
+            <td><span class="star">★</span> 4.5</td>
+            <td><span class="reviews-bar" style="width:45px;"></span>112</td>
+            <td>31</td>
+            <td style="color:var(--green); font-weight:600;">Weekly</td>
+            <td><span class="comp-rank rank-2">2</span></td>
+          </tr>
+          <tr>
+            <td><strong>Pioneer Plumbing</strong></td>
+            <td><span class="star">★</span> 4.4</td>
+            <td><span class="reviews-bar" style="width:35px;"></span>91</td>
+            <td>22</td>
+            <td style="color:var(--amber);">Monthly</td>
+            <td><span class="comp-rank rank-3">3</span></td>
+          </tr>
+          <tr class="you-row">
+            <td><strong>Summit Plumbing Co.</strong> ← YOU</td>
+            <td><span class="star">★</span> 4.6</td>
+            <td><span class="reviews-bar" style="width:30px; background:var(--accent);"></span>87</td>
+            <td>14</td>
+            <td style="color:var(--red); font-weight:600;">Inactive</td>
+            <td><span class="comp-rank rank-you">4</span></td>
+          </tr>
+          <tr>
+            <td>ABC Plumbing & Heating</td>
+            <td><span class="star">★</span> 4.2</td>
+            <td><span class="reviews-bar" style="width:20px;"></span>54</td>
+            <td>8</td>
+            <td style="color:var(--red);">Inactive</td>
+            <td><span class="comp-rank">5</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="display:flex; gap:16px; margin-top:16px;">
+        <div style="flex:1; background:var(--green-bg); padding:16px 20px; border-radius:12px;">
+          <div style="font-size:12px; font-weight:700; color:var(--green-text); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Your Advantages</div>
+          <div style="font-size:13px; color:var(--green-text); margin:6px 0;">✓ Highest rating of any business outside top 2</div>
+          <div style="font-size:13px; color:var(--green-text); margin:6px 0;">✓ Strong recent review velocity (6 in 30 days)</div>
+          <div style="font-size:13px; color:var(--green-text); margin:6px 0;">✓ Complete business info and service categories</div>
+        </div>
+        <div style="flex:1; background:var(--red-bg); padding:16px 20px; border-radius:12px;">
+          <div style="font-size:12px; font-weight:700; color:var(--red-text); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Gaps to Close</div>
+          <div style="font-size:13px; color:var(--red-text); margin:6px 0;">✕ 69 fewer reviews than market leader</div>
+          <div style="font-size:13px; color:var(--red-text); margin:6px 0;">✕ No GBP posting activity in 90 days</div>
+          <div style="font-size:13px; color:var(--red-text); margin:6px 0;">✕ Photo count 3x below leader</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ SECTION 3: WEBSITE ════════ -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-header-left">
+          <div class="section-num">3</div>
+          <div class="section-title">Website &amp; Conversions</div>
+        </div>
+        <div class="section-score-badge">
+          <span style="color: #EF4444;">3/10</span>
+          <div class="bar"><div class="bar-fill" style="width:30%; background:#EF4444;"></div></div>
+        </div>
+      </div>
+      <div class="section-summary">
+        Your website has significant gaps that are likely losing you leads every day. Missing conversion elements, no local SEO signals, and no structured data mean both Google and AI assistants can't effectively recommend your business.
+      </div>
+
+      <div class="finding finding-good">
+        <div class="finding-icon">✓</div>
+        <div class="finding-content">
+          <div class="finding-label">HTTPS: Enabled</div>
+          <div class="finding-detail">Your site uses SSL encryption. This is a basic ranking signal and trust factor — you've got it covered.</div>
+        </div>
+      </div>
+
+      <div class="finding finding-critical">
+        <div class="finding-icon">✕</div>
+        <div class="finding-content">
+          <div class="finding-label">No Click-to-Call Button</div>
+          <div class="finding-detail">67% of mobile visitors to service business websites use click-to-call. Your site has no tap-to-call functionality. This is likely your single biggest conversion leak.</div>
+          <div class="finding-fix">Add a sticky click-to-call button in the mobile header — this alone can increase calls 20-40%</div>
+        </div>
+      </div>
+
+      <div class="finding finding-critical">
+        <div class="finding-icon">✕</div>
+        <div class="finding-content">
+          <div class="finding-label">No Schema Markup / Structured Data</div>
+          <div class="finding-detail">Your website has zero structured data (JSON-LD / Schema.org). This means Google can't create rich search results for your business, and AI assistants have no machine-readable data to reference.</div>
+          <div class="finding-fix">Add LocalBusiness and Service schema — needs a developer or tool like AgentLocal</div>
+        </div>
+      </div>
+
+      <div class="finding finding-critical">
+        <div class="finding-icon">✕</div>
+        <div class="finding-content">
+          <div class="finding-label">No Service Area Pages</div>
+          <div class="finding-detail">You serve Englewood, Littleton, Centennial, and Highlands Ranch — but your website has no city-specific service pages. Each of these should be its own page: "Plumbing Services in Littleton, CO" with area-specific content.</div>
+          <div class="finding-fix">Create 4 location-specific service pages targeting each city you serve</div>
+        </div>
+      </div>
+
+      <div class="finding finding-warning">
+        <div class="finding-icon">!</div>
+        <div class="finding-content">
+          <div class="finding-label">No Chat Widget or Online Booking</div>
+          <div class="finding-detail">43% of home service customers prefer to book online rather than call. You have no chat widget, contact form, or booking functionality.</div>
+          <div class="finding-fix">Add a simple chat widget or booking form — even a basic contact form improves conversion</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ SECTION 4: AI READINESS ════════ -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-header-left">
+          <div class="section-num">4</div>
+          <div class="section-title">AI Readiness</div>
+        </div>
+        <div class="section-score-badge">
+          <span style="color: #EF4444;">2/10</span>
+          <div class="bar"><div class="bar-fill" style="width:20%; background:#EF4444;"></div></div>
+        </div>
+      </div>
+      <div class="section-summary">
+        This is the emerging battleground for local businesses. When someone asks ChatGPT, Claude, Google AI, or Siri to "find me a plumber near Littleton," your business is effectively invisible. Here's why — and what to do about it.
+      </div>
+
+      <div class="finding finding-critical">
+        <div class="finding-icon">✕</div>
+        <div class="finding-content">
+          <div class="finding-label">AI Discoverability: Not Findable</div>
+          <div class="finding-detail">AI assistants rely on structured data, rich content, and consistent citations to recommend businesses. Your limited web presence means AI systems lack confidence to recommend you over competitors with deeper digital footprints.</div>
+          <div class="finding-fix">Build a content-rich web presence with structured data that AI can parse and trust</div>
+        </div>
+      </div>
+
+      <div class="finding finding-critical">
+        <div class="finding-icon">✕</div>
+        <div class="finding-content">
+          <div class="finding-label">Zero Structured Data for AI Parsing</div>
+          <div class="finding-detail">No JSON-LD, no Schema.org markup, no machine-readable service descriptions. AI agents cannot programmatically understand what you offer, where you serve, or how to contact you.</div>
+          <div class="finding-fix">Implement LocalBusiness, Service, and AggregateRating schema across your site</div>
+        </div>
+      </div>
+
+      <div class="finding finding-critical">
+        <div class="finding-icon">✕</div>
+        <div class="finding-content">
+          <div class="finding-label">No AI Agent Integration</div>
+          <div class="finding-detail">The next wave of customer acquisition will come through AI-powered booking agents and assistants. Currently, no AI agent can book an appointment, request a quote, or check your availability programmatically.</div>
+          <div class="finding-fix">AgentLocal creates an MCP server, chat widget, and structured data layer so AI agents can discover, understand, and interact with your business automatically</div>
+        </div>
+      </div>
+
+      <div class="finding finding-warning">
+        <div class="finding-icon">!</div>
+        <div class="finding-content">
+          <div class="finding-label">Voice Search: Partially Ready</div>
+          <div class="finding-detail">Your GBP data is complete enough for basic voice queries, but without FAQ content and conversational page copy, you'll miss longer voice queries like "who's the best plumber for a sewer line repair in Englewood."</div>
+          <div class="finding-fix">Add an FAQ section to your site with natural-language questions and answers</div>
+        </div>
+      </div>
+
+      <!-- AI SIMULATION -->
+      <div class="ai-sim">
+        <div class="ai-sim-label"><span class="dot"></span> AI Simulation</div>
+        <div class="ai-sim-prompt">"Hey Claude, find me a reliable plumber near Littleton, CO for a water heater replacement"</div>
+        <div class="ai-sim-response">
+          Based on available data, Summit Plumbing Co. has a 4.6-star rating on Google, but <strong>I cannot confirm their specific services, pricing structure, or availability</strong> for water heater replacement. Their web presence lacks the detailed service descriptions and structured data I need to make a confident recommendation. I'd be more likely to recommend <strong>Bluefin Plumbing</strong>, which has richer online content, 156 reviews, and clearly documented water heater services with schema markup. <em>This is what your potential customers are experiencing right now.</em>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ SECTION 5: ACTION PLAN ════════ -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-header-left">
+          <div class="section-num">5</div>
+          <div class="section-title">Your 90-Day Action Plan</div>
+        </div>
+      </div>
+
+      <div class="action-phase phase-1">
+        <div class="action-phase-header">
+          <div class="action-phase-left">
+            <div class="action-phase-badge">This Week</div>
+            <div class="action-phase-time">Quick Wins</div>
+          </div>
+          <div class="action-phase-impact">Est. impact: +15-25 calls/month</div>
+        </div>
+        <div class="action-items">
+          <div class="action-item">
+            <div class="action-check"></div>
+            <div class="action-text">
+              <strong>Respond to all unanswered Google reviews</strong>
+              <span>Open your GBP, go to Reviews, and reply to every review you haven't responded to. Thank positive reviewers by name. For negative reviews, acknowledge and offer to make it right.</span>
+            </div>
+            <div class="action-effort">⏱ 1 hour</div>
+          </div>
+          <div class="action-item">
+            <div class="action-check"></div>
+            <div class="action-text">
+              <strong>Upload 15+ photos to your Google Business Profile</strong>
+              <span>Include: your team, branded vehicles, 5 completed job photos (before/after), your office/warehouse, equipment. Name each photo descriptively before uploading.</span>
+            </div>
+            <div class="action-effort">⏱ 30 min</div>
+          </div>
+          <div class="action-item">
+            <div class="action-check"></div>
+            <div class="action-text">
+              <strong>Add a click-to-call button to your website header</strong>
+              <span>Mobile visitors need to tap one button to call you. This should be a sticky element that stays visible as they scroll. If you use WordPress, the "WP Call Button" plugin does this in 5 minutes.</span>
+            </div>
+            <div class="action-effort">⏱ 15 min</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-phase phase-2">
+        <div class="action-phase-header">
+          <div class="action-phase-left">
+            <div class="action-phase-badge">This Month</div>
+            <div class="action-phase-time">Competitive Positioning</div>
+          </div>
+          <div class="action-phase-impact">Est. impact: Top 3 Map Pack ranking</div>
+        </div>
+        <div class="action-items">
+          <div class="action-item">
+            <div class="action-check"></div>
+            <div class="action-text">
+              <strong>Create 4 city-specific service pages</strong>
+              <span>One page each for: Plumbing Services in Littleton · Plumbing Services in Englewood · Plumbing Services in Centennial · Plumbing Services in Highlands Ranch. Each needs unique content, not just city name swaps.</span>
+            </div>
+            <div class="action-effort">⏱ Half day</div>
+          </div>
+          <div class="action-item">
+            <div class="action-check"></div>
+            <div class="action-text">
+              <strong>Start posting to GBP 2x per week</strong>
+              <span>Alternate between: completed job highlights, seasonal maintenance tips, promotions, and team spotlights. Each post should include a photo and a call to action.</span>
+            </div>
+            <div class="action-effort">⏱ 20 min/week</div>
+          </div>
+          <div class="action-item">
+            <div class="action-check"></div>
+            <div class="action-text">
+              <strong>Implement a review request system</strong>
+              <span>Send every customer a follow-up text with a direct link to your Google review page within 2 hours of job completion. Target: 10+ new reviews per month.</span>
+            </div>
+            <div class="action-effort">⏱ 2 hours setup</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-phase phase-3">
+        <div class="action-phase-header">
+          <div class="action-phase-left">
+            <div class="action-phase-badge">This Quarter</div>
+            <div class="action-phase-time">AI Readiness Buildout</div>
+          </div>
+          <div class="action-phase-impact">Est. impact: AI-discoverable, future-proofed</div>
+        </div>
+        <div class="action-items">
+          <div class="action-item">
+            <div class="action-check"></div>
+            <div class="action-text">
+              <strong>Add structured data (Schema.org) to your entire website</strong>
+              <span>Implement LocalBusiness, Service, FAQ, and AggregateRating schemas. This makes your business machine-readable for Google AI Overviews, ChatGPT, Claude, and all AI assistants.</span>
+            </div>
+            <div class="action-effort">⏱ Needs pro</div>
+          </div>
+          <div class="action-item">
+            <div class="action-check"></div>
+            <div class="action-text">
+              <strong>Build an AI-ready web presence with AgentLocal</strong>
+              <span>Get a website, chat widget, and MCP server simultaneously — making your business discoverable by AI agents while also improving your human visitor experience.</span>
+            </div>
+            <div class="action-effort">⏱ 30 min setup</div>
+          </div>
+          <div class="action-item">
+            <div class="action-check"></div>
+            <div class="action-text">
+              <strong>Create comprehensive FAQ and service description content</strong>
+              <span>Write detailed answers to the top 20 questions customers ask you. This content feeds both voice search and AI assistant recommendations.</span>
+            </div>
+            <div class="action-effort">⏱ 2-3 hours</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════ CTA ════════ -->
+    <div class="cta-block">
+      <div class="cta-score-jump">
+        <span class="cta-score-from">47</span>
+        <span class="cta-score-arrow">→</span>
+        <span class="cta-score-to">82</span>
+      </div>
+      <div class="cta-headline">Summit Plumbing is invisible to AI. Let's fix that.</div>
+      <div class="cta-body">
+        Your GBP is strong, but your AI Readiness score of 2/10 means the growing wave of AI-powered search is sending customers to your competitors. AgentLocal builds your AI-ready presence in 30 minutes — structured data, chat widget, and MCP server included.
+      </div>
+      <a href="https://agentlocal.ai?ref=report&score=47&industry=plumbing" class="cta-button">
+        Get Started with AgentLocal →
+      </a>
+    </div>
+
+  </div><!-- /report-body -->
+
+  <!-- ════════ FOOTER ════════ -->
+  <div class="report-footer">
+    <div class="footer-left">
+      <strong>AgentLocal.ai</strong> · AI Readiness & Optimization Report
+      <br>Generated for Summit Plumbing Co. · March 14, 2026
+    </div>
+    <div class="footer-right">
+      <span class="footer-confidential">🔒 Confidential</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
