@@ -71,9 +71,9 @@ interface Report {
 
 function scoreColor(score: number, max = 10) {
   const pct = (score / max) * 100;
-  if (pct >= 70) return "#10B981";
-  if (pct >= 45) return "#F59E0B";
-  return "#EF4444";
+  if (pct >= 70) return "#009b8d";
+  if (pct >= 45) return "#c77700";
+  return "#c4384b";
 }
 
 function statusIcon(status: string) {
